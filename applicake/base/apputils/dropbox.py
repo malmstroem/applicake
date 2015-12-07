@@ -3,7 +3,7 @@ import shutil
 import subprocess
 
 from applicake.apputils import dirs,validation
-from applibase.applicake.coreutils import Keys
+from applicake.base.coreutils import Keys
 
 
 def get_experiment_code(info):
@@ -69,8 +69,8 @@ def move_stage_to_dropbox(log, stage, dropbox, keepCopy=False):
 
 
 def extendWorkflowID(wfstring):
-    applivers = subprocess.check_output("git --git-dir=/cluster/apps/guse/stable/applicake/master/.git rev-parse --short HEAD",
+    applivers = subprocess.check_output("git --git-dir=/cluster/apps/guse/stable/base/master/.git rev-parse --short HEAD",
                                         shell=True).strip()
     imsbtoolvers = subprocess.check_output("printenv LOADEDMODULES| grep -o 'imsbtools/[^:]*' | tail -1",
                                            shell=True).strip()
-    return wfstring + " " + imsbtoolvers + " applicake@" + applivers
+    return wfstring + " " + imsbtoolvers + " base@" + applivers

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from applibase.applicake import WrappedApp
-from applibase.applicake.coreutils import Argument
-from applibase.applicake.coreutils import Keys, KeyHelp
+from applicake.base import WrappedApp
+from applicake.base.coreutils import Argument
+from applicake.base.coreutils import Keys, KeyHelp
 
 
 class ExternalEcho(WrappedApp):

@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import os
 
-from applibase.applicake.app import BasicApp
-from applibase.applicake.apputils.dirs import create_workdir
-from applibase.applicake.coreutils import Argument
-from applibase.applicake.apputils import templates
-from applibase.applicake.coreutils import Keys, KeyHelp
+from applicake.base.app import BasicApp
+from applicake.base.apputils.dirs import create_workdir
+from applicake.base.coreutils import Argument
+from applicake.base.apputils import templates
+from applicake.base.coreutils import Keys, KeyHelp
 
 
 class TemplateApp(BasicApp):

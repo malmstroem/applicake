@@ -4,7 +4,7 @@ import re
 import shutil
 import time
 
-from applibase.applicake.coreutils import Keys
+from applicake.base.coreutils import Keys
 
 
 def create_workdir(log, info):

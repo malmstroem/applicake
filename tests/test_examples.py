@@ -5,10 +5,10 @@ import tempfile
 import shutil
 from sys import platform as _platform
 
-from applibase.appliapps.examples.a_pyecho import PythonEcho
-from applibase.appliapps.examples.b_extecho import ExternalEcho
-from applibase.appliapps.examples.cp import CpApp
-from applibase.appliapps.examples.template import TemplateApp
+from applicake.apps.examples.a_pyecho import PythonEcho
+from applicake.apps.examples.b_extecho import ExternalEcho
+from applicake.apps.examples.cp import CpApp
+from applicake.apps.examples.template import TemplateApp
 
 
 class Test(unittest.TestCase):

@@ -4,13 +4,13 @@ import os
 import tempfile
 import shutil
 
-from applibase.appliapps.examples.cp import CpApp
-from applibase.appliapps.examples.b_extecho import ExternalEcho
-from applibase.appliapps.flow.branch import Branch
-from applibase.appliapps.flow.collate import Collate
-from applibase.appliapps.flow.merge import Merge
-from applibase.appliapps.flow.split import Split
-from applibase.appliapps.flow.jobid import Jobid
+from applicake.apps.examples.cp import CpApp
+from applicake.apps.examples.b_extecho import ExternalEcho
+from applicake.apps.flow.branch import Branch
+from applicake.apps.flow.collate import Collate
+from applicake.apps.flow.merge import Merge
+from applicake.apps.flow.split import Split
+from applicake.apps.flow.jobid import Jobid
 
 
 class Test(unittest.TestCase):

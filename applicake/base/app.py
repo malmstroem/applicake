@@ -3,13 +3,13 @@ import subprocess
 import sys
 import time
 
-from applibase.applicake.apputils import dirs
-from applibase.applicake.apputils import dicts
-from applibase.applicake.apputils import validation
-from applibase.applicake.coreutils.keys import Keys, KeyHelp
-from applibase.applicake.coreutils.log import Logger
-from applibase.applicake.coreutils.arguments import Argument, parse_sysargs
-from applibase.applicake.coreutils.info import get_handler
+from applicake.base.apputils import dirs
+from applicake.base.apputils import dicts
+from applicake.base.apputils import validation
+from applicake.base.coreutils.keys import Keys, KeyHelp
+from applicake.base.coreutils.log import Logger
+from applicake.base.coreutils.arguments import Argument, parse_sysargs
+from applicake.base.coreutils.info import get_handler
 
 
 class IApp(object):

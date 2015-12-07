@@ -5,7 +5,7 @@ import tempfile
 import shutil
 from StringIO import StringIO
 
-from applibase.appliapps.examples.b_extecho import ExternalEcho
+from applicake.apps.examples.b_extecho import ExternalEcho
 
 
 class Test(unittest.TestCase):
