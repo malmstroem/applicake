@@ -1,7 +1,7 @@
 import sys
 from ast import literal_eval
 
-from applicake.coreutils.keys import Keys
+from keys import Keys
 
 
 class Argument(object):

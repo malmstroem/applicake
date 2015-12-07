@@ -4,10 +4,10 @@ import os
 import tempfile
 import shutil
 
-from appliapps.flow.branch import Branch
-from appliapps.flow.collate import Collate
-from appliapps.flow.merge import Merge
-from appliapps.flow.split import Split
+from applibase.appliapps.flow.branch import Branch
+from applibase.appliapps.flow.collate import Collate
+from applibase.appliapps.flow.merge import Merge
+from applibase.appliapps.flow.split import Split
 
 
 class Test(unittest.TestCase):

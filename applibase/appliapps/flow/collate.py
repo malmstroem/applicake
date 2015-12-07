@@ -1,9 +1,9 @@
 #!/usr/bin/env python
-import applicake.apputils.dicts as dicts
-from applicake.coreutils.arguments import Argument
-from applicake.coreutils.info import get_handler
-from applicake.app import BasicApp
-from applicake.coreutils.keys import Keys, KeyHelp
+import applibase.applicake.apputils.dicts as dicts
+from applibase.applicake.coreutils import Argument
+from applibase.applicake.coreutils.info import get_handler
+from applibase.applicake import BasicApp
+from applibase.applicake.coreutils import Keys, KeyHelp
 
 
 class Collate(BasicApp):

@@ -3,12 +3,13 @@ import sys
 import os
 import tempfile
 import shutil
-from appliapps.examples.a_pyecho import PythonEcho
-from appliapps.examples.b_extecho import ExternalEcho
-
-from appliapps.examples.cp import CpApp
-from appliapps.examples.template import TemplateApp
 from sys import platform as _platform
+
+from applibase.appliapps.examples.a_pyecho import PythonEcho
+from applibase.appliapps.examples.b_extecho import ExternalEcho
+from applibase.appliapps.examples.cp import CpApp
+from applibase.appliapps.examples.template import TemplateApp
+
 
 class Test(unittest.TestCase):
     @classmethod

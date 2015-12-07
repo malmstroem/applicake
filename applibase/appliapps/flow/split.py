@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 import copy
 
-from applicake.coreutils.arguments import Argument
-from applicake.coreutils.info import get_handler
-from applicake.app import BasicApp
-from applicake.coreutils.keys import Keys, KeyHelp
+from applibase.applicake.coreutils.arguments import Argument
+from applibase.applicake.coreutils.info import get_handler
+from applibase.applicake.app import BasicApp
+from applibase.applicake.coreutils.keys import Keys, KeyHelp
 
 
 class Split(BasicApp):

@@ -1,6 +1,6 @@
 from configobj import ConfigObj
 
-from applicake.coreutils.keys import Keys
+from applibase.applicake.coreutils import Keys
 
 
 def get_handler(path):

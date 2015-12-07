@@ -3,10 +3,9 @@ import sys
 import os
 import tempfile
 import shutil
-import logging
 from StringIO import StringIO
 
-from appliapps.examples.b_extecho import ExternalEcho
+from applibase.appliapps.examples.b_extecho import ExternalEcho
 
 
 class Test(unittest.TestCase):

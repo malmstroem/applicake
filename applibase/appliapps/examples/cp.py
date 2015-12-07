@@ -1,11 +1,11 @@
 #!/usr/bin/env python
 import os
 
-from applicake.app import WrappedApp
-from applicake.apputils.dirs import create_workdir
-from applicake.apputils import validation
-from applicake.coreutils.arguments import Argument
-from applicake.coreutils.keys import KeyHelp, Keys
+from applibase.applicake.app import WrappedApp
+from applibase.applicake.apputils.dirs import create_workdir
+from applibase.applicake.apputils import validation
+from applibase.applicake.coreutils import Argument
+from applibase.applicake.coreutils import KeyHelp, Keys
 
 
 class CpApp(WrappedApp):

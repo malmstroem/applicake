@@ -1,7 +1,7 @@
 #!/usr/bin/env python
-from applicake.app import BasicApp
-from applicake.coreutils.arguments import Argument
-from applicake.coreutils.keys import Keys, KeyHelp
+from applibase.applicake import BasicApp
+from applibase.applicake.coreutils import Argument
+from applibase.applicake.coreutils import Keys, KeyHelp
 
 
 class PythonEcho(BasicApp):
