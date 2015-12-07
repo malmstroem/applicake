@@ -2,6 +2,7 @@ import os
 import subprocess
 import sys
 import time
+import getpass
 
 from applicake.base.apputils import dirs
 from applicake.base.apputils import dicts

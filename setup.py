@@ -11,6 +11,6 @@ setup(
     license="BSD",
     packages=['applicake'],
     include_package_data=True,
-    url='https://github.com/base-tools',
+    url='https://github.com/applicake-tools/applicake',
     install_requires=[]
 )
