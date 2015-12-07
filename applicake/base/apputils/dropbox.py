@@ -2,7 +2,7 @@ import os
 import shutil
 import subprocess
 
-from applicake.apputils import dirs,validation
+from applicake.base.apputils import dirs,validation
 from applicake.base.coreutils import Keys
 
 
