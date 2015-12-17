@@ -80,8 +80,13 @@ class BasicApp(IApp):
             if isinstance(e, KeyError):
                 msg += " key not found in info"
             msg += "\n"
-            # if app fails before logger is created use sys.exit for message
-            # subprocess.call("echo \"applifake msg: %s\" | mail -s \"WFTestFailed\" sis.helpdesk@bsse.ethz.ch" % msg ,shell=True)
+            # feature request cuklinaj: mail when fail
+            if os.environ.get("LSB_JOBID"):
+                controlfile = os.getenv("HOME") + "/.last_error_message"
+                if not os.path.exists(controlfile) or (time.time() - os.stat(controlfile).st_mtime) > 300:
+                    print "Sending errormail"
+                    subprocess.call("touch %s; echo \"Failure reason: %s\" | mail -s \"Workflow Failed\" %s" % (
+                        controlfile, msg, getpass.getuser()), shell=True)
             if not log:
                 sys.exit(msg)
             log.error(msg)
@@ -127,7 +132,6 @@ class BasicApp(IApp):
             else:
                 log.debug("Datasets are %s" % info[Keys.DATASET_CODE])
 
-
         # WORKDIR: create WORKDIR (only after mk log)
         info = dirs.create_workdir(log, info)
 
@@ -170,7 +174,7 @@ class WrappedApp(BasicApp):
                 exit_code_s, out_s = self.execute_run_single(log, info, single_command)
                 exit_code += exit_code
                 out += out_s
-                if exit_code_s !=0:
+                if exit_code_s != 0:
                     break
         else:
             exit_code, out = self.execute_run_single(log, info, cmd)
