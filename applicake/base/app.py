@@ -3,6 +3,7 @@ import subprocess
 import sys
 import time
 import getpass
+import re
 
 from applicake.base.apputils import dirs
 from applicake.base.apputils import dicts
@@ -80,11 +81,10 @@ class BasicApp(IApp):
             if isinstance(e, KeyError):
                 msg += " key not found in info"
             msg += "\n"
-            # feature request cuklinaj: mail when fail
+            # feature request cuklinaj: mail when fail, delay between
             if os.environ.get("LSB_JOBID"):
                 controlfile = os.getenv("HOME") + "/.last_error_message"
                 if not os.path.exists(controlfile) or (time.time() - os.stat(controlfile).st_mtime) > 300:
-                    print "Sending errormail"
                     subprocess.call("touch %s; echo \"Failure reason: %s\" | mail -s \"Workflow Failed\" %s" % (
                         controlfile, msg, getpass.getuser()), shell=True)
             if not log:
@@ -182,6 +182,8 @@ class WrappedApp(BasicApp):
 
     @staticmethod
     def execute_run_single(log, info, cmd):
+        # feature request lgillet: append all executed commands to inifile, shorten paths
+        info['COMMAND_HISTORY'] = info.get('COMMAND_HISTORY',"") + re.sub(r"/[^ ]*/([^ ]*) ",r"\1 ",cmd.replace("\n", ""))+"; "
         # Fixme: Prettify/document MODULE load system
         # if MODULE is set load specific module before running cmd. requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':
