@@ -183,7 +183,7 @@ class WrappedApp(BasicApp):
     @staticmethod
     def execute_run_single(log, info, cmd):
         # feature request lgillet: append all executed commands to inifile, shorten paths
-        info['COMMAND_HISTORY'] = info.get('COMMAND_HISTORY',"") + re.sub(r"/[^ ]*/([^ ]*) ",r"\1 ",cmd.replace("\n", ""))+"; "
+        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY',"")) + re.sub(r"/[^ ]*/([^ ]*) ",r"\1 ",cmd.replace("\n", ""))+"; "
         # Fixme: Prettify/document MODULE load system
         # if MODULE is set load specific module before running cmd. requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':

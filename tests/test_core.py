@@ -5,7 +5,7 @@ import tempfile
 import shutil
 from StringIO import StringIO
 
-from applicake.apps.examples.b_extecho import ExternalEcho
+from applicake.apps.examples.echowrapped import EchoWrapped
 
 
 class Test(unittest.TestCase):
@@ -21,19 +21,19 @@ class Test(unittest.TestCase):
         sys.stdout = StringIO()
         #should write default comment to logfile
         sys.argv = []
-        ExternalEcho.main()
+        EchoWrapped.main()
         assert "default comment" in sys.stdout.getvalue()
 
         #should write infofile comment (because higher prio than default comment) to logfile
         sys.stdout.truncate(0)
         sys.argv = ["--LOG_STORAGE", "file", "--INPUT", 'input.ini']
-        ExternalEcho.main()
+        EchoWrapped.main()
         assert "infofile comment" in sys.stdout.getvalue()
 
         #should write cmdline comment to logfile (because cmdline > infofile > default)
         sys.stdout.truncate(0)
         sys.argv = ["--LOG_STORAGE", "file", "--INPUT", 'input.ini', '--COMMENT', 'cmdline comment']
-        ExternalEcho.main()
+        EchoWrapped.main()
         assert "cmdline comment" in sys.stdout.getvalue()
         sys.stdout = sys.__stdout__
 

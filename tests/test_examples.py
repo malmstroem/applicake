@@ -5,8 +5,8 @@ import tempfile
 import shutil
 from sys import platform as _platform
 
-from applicake.apps.examples.a_pyecho import PythonEcho
-from applicake.apps.examples.b_extecho import ExternalEcho
+from applicake.apps.examples.echobasic import EchoBasic
+from applicake.apps.examples.echowrapped import EchoWrapped
 from applicake.apps.examples.cp import CpApp
 from applicake.apps.examples.template import TemplateApp
 
@@ -21,11 +21,11 @@ class Test(unittest.TestCase):
 
     def test1_pyecho(self):
         sys.argv = ['--COMMENT', 'comment']
-        PythonEcho.main()
+        EchoBasic.main()
 
     def test2_extecho(self):
         sys.argv = ['--COMMENT', 'comment']
-        ExternalEcho.main()
+        EchoWrapped.main()
 
     def test3_cp(self):
         sys.argv = ["--FILE", "testfile"]

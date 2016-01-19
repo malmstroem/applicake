@@ -4,7 +4,7 @@ from applicake.base.coreutils import Argument
 from applicake.base.coreutils import Keys, KeyHelp
 
 
-class ExternalEcho(WrappedApp):
+class EchoWrapped(WrappedApp):
     """
     A most simple example for a WrappedApp
     prints COMMENT to stdout using '/bin/echo'
@@ -28,4 +28,4 @@ class ExternalEcho(WrappedApp):
 
 #use this class as executable
 if __name__ == "__main__":
-    ExternalEcho.main()
+    EchoWrapped.main()

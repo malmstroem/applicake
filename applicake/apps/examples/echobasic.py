@@ -4,7 +4,7 @@ from applicake.base.coreutils import Argument
 from applicake.base.coreutils import Keys, KeyHelp
 
 
-class PythonEcho(BasicApp):
+class EchoBasic(BasicApp):
     """
     A most simple example for a BasicApp
     prints COMMENT to stdout
@@ -22,4 +22,4 @@ class PythonEcho(BasicApp):
 
 #use this class as executable
 if __name__ == "__main__":
-    PythonEcho.main()
+    EchoBasic.main()

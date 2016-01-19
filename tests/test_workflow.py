@@ -5,7 +5,7 @@ import tempfile
 import shutil
 
 from applicake.apps.examples.cp import CpApp
-from applicake.apps.examples.b_extecho import ExternalEcho
+from applicake.apps.examples.echowrapped import EchoWrapped
 from applicake.apps.flow.branch import Branch
 from applicake.apps.flow.collate import Collate
 from applicake.apps.flow.merge import Merge
@@ -60,12 +60,12 @@ FILE = test.txt""")
 
     def test5_echo(self):
         sys.argv = ['--INPUT', 'split.ini_0', '--OUTPUT', 'echo.ini_0']
-        ExternalEcho.main()
+        EchoWrapped.main()
 
         assert os.path.exists('echo.ini_0')
 
         sys.argv = ['--INPUT', 'split.ini_1', '--OUTPUT', 'echo.ini_1']
-        ExternalEcho.main()
+        EchoWrapped.main()
 
         os.path.exists('echo.ini_1')
 
@@ -79,6 +79,7 @@ FILE = test.txt""")
         Collate.main()
         assert os.path.exists('collate.ini')
 
+        print open('collate.ini').read()
         assert 'comm, ent' in open('collate.ini').read()
         assert 'COPY' in open('collate.ini').read()
 
