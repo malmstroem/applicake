@@ -61,7 +61,7 @@ class CopyWorkflow(BasicApp):
         pipeline_info['BASEDIR'] = info['BASEDIR']
 
         info = pipeline_info
-        log.debug("NOW THIS IS THE REAL RESULT. I FETED FROM SUBWORKFOW %s" % info['COPY'])
+        log.debug("NOW THIS IS THE REAL RESULT. I FETCHED FROM SUBWORKFOW %s" % info['COPY'])
 
         return info
 
