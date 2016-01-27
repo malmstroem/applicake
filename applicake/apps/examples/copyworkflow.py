@@ -31,7 +31,6 @@ def merge(unused_infile, outfile):
     Merge.main()
 
 
-
 class CopyWorkflow(BasicApp):
     """
     Let's wrap a ruffus workflow in an app
@@ -61,7 +60,7 @@ class CopyWorkflow(BasicApp):
         pipeline_info['BASEDIR'] = info['BASEDIR']
 
         info = pipeline_info
-        log.debug("NOW THIS IS THE REAL RESULT. I FETED FROM SUBWORKFOW %s" % info['COPY'])
+        log.debug("NOW THIS IS THE REAL RESULT. I FETCHED FROM SUBWORKFLOW %s" % info['COPY'])
 
         return info
 
