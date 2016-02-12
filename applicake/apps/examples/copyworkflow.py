@@ -40,7 +40,7 @@ class CopyWorkflow(BasicApp):
         return [
             Argument(Keys.WORKDIR, KeyHelp.WORKDIR),
             Argument("FILE", "FILE FOR COPY JOB"),
-            Argument(Keys.THREADS,KeyHelp.THREADS),
+            Argument(Keys.THREADS,KeyHelp.THREADS, default=1),
         ]
 
     def run(self, log, info):
