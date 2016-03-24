@@ -11,10 +11,6 @@ from applicake.base import Argument, Keys, KeyHelp, BasicApp
 from applicake.base.coreutils import IniInfoHandler
 
 
-def setup():
-    pass
-
-@follows(setup)
 @split("input.ini", "split.ini_*")
 def split(infile, unused_outfile):
     sys.argv = ['--INPUT', infile, '--SPLIT', 'split.ini', '--SPLIT_KEY', 'FILE']
@@ -46,7 +42,6 @@ class CopyWorkflow(BasicApp):
     def run(self, log, info):
         #write ini for workflow, contains BASEDIR + JOBID
         pipeline_info = info.copy()
-        pipeline_info['BASEDIR'] = info['WORKDIR']
 
         path = os.path.join(pipeline_info["WORKDIR"],"input.ini")
         IniInfoHandler().write(info,path)

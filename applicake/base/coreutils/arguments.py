@@ -54,7 +54,7 @@ def _print_help(arglist):
             deflt = "[required]"
         else:
             deflt = arg.default
-        print "  --%-20s %s" % (arg.name + " " + deflt, arg.help or "")
+        print "  --%-20s %s" % ("%s %s" % (arg.name, deflt), arg.help or "")
         #prettify helptext
         if arg.name is Keys.LOG_LEVEL:
             print ""
