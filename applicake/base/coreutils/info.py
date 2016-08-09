@@ -45,3 +45,16 @@ class IniInfoHandler(IInfoHandler):
         config = ConfigObj(info)
         config.filename = path
         config.write()
+
+    def write_all(self, info, path):
+        ''' same as write but does not do special key filtering. For debug purposes only'''
+        info = info.copy()
+        config = ConfigObj(info)
+        config.filename = path
+        config.write()
+     
+     
+     
+     
+     
+     
