@@ -1,7 +1,7 @@
 import sys
 from ast import literal_eval
 
-from keys import Keys
+from .keys import Keys
 
 
 class Argument(object):
@@ -36,7 +36,7 @@ def parse_sysargs(arglist):
             else:
                 all_args[key] = sarg
 
-    for k, v in all_args.iteritems():
+    for k, v in all_args.items():
         try:
             all_args[k] = literal_eval(v)
         except:
@@ -47,15 +47,15 @@ def parse_sysargs(arglist):
 
 
 def _print_help(arglist):
-    print "Usage:\n" \
-          "  -h                     Show this help message and exit"
+    print("Usage:\n" \
+          "  -h                     Show this help message and exit")
     for arg in arglist:
         if arg.default is None:
             deflt = "[required]"
         else:
             deflt = arg.default
-        print "  --%-20s %s" % ("%s %s" % (arg.name, deflt), arg.help or "")
+        print("  --%-20s %s" % ("%s %s" % (arg.name, deflt), arg.help or ""))
         #prettify helptext
         if arg.name is Keys.LOG_LEVEL:
-            print ""
+            print("")
     sys.exit(1)

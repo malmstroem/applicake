@@ -75,9 +75,9 @@ class BasicApp(IApp):
             info = dicts.merge(info, ret_info, priority='right')
 
             ci.teardown(log, info)
-            log.debug("%s finished sucessfully at %s" % (cls.__name__, time.asctime()))
-            log.info("%s finished sucessfully after %ss" % (cls.__name__, int(time.time() - start)))
-        except Exception, e:
+            log.debug("%s finished successfully at %s" % (cls.__name__, time.asctime()))
+            log.info("%s finished successfully after %ss" % (cls.__name__, int(time.time() - start)))
+        except Exception as e:
             msg = cls.__name__ + " failed! " + str(e)
             if isinstance(e, KeyError):
                 msg += " key not found in info"
@@ -198,7 +198,7 @@ class WrappedApp(BasicApp):
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1)
         out = ""
         for line in iter(p.stdout.readline, ''):
-            print line.strip()
+            print(line.strip())
             out += line
         p.communicate()
         exit_code = p.returncode

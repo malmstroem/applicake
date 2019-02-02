@@ -50,9 +50,9 @@ def create_unique_jobdir(basedir):
         try:
             path = os.path.join(basedir, dirname + ext)
             os.mkdir(path)
-            os.chmod(path, 0775)
+            os.chmod(path, 0o775)
             return dirname + ext
-        except OSError, e:
+        except OSError as e:
             if e.errno == errno.EEXIST:
                 ext = '-' + str(i)
                 continue  # try again
@@ -67,7 +67,7 @@ def makedirs_clean(wd):
     makedirs_chmod(wd)
 
 
-def makedirs_chmod(newdir, mode=0775):
+def makedirs_chmod(newdir, mode=0o775):
     """like os.makedirs(dir,mode) but chmod of ALL created subfolders"""
     head, tail = os.path.split(newdir)
     if head and not os.path.isdir(head):

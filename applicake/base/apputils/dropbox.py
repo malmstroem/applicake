@@ -32,7 +32,7 @@ def keys_to_dropbox(log, info, keys, tgt):
     if not isinstance(keys, list):
         keys = [keys]
     for key in keys:
-        if not info.has_key(key):
+        if not key in info:
             raise Exception('key [%s] not found in info for copying to dropbox' % key)
         if isinstance(info[key], list):
             files = info[key]
@@ -57,11 +57,11 @@ def move_stage_to_dropbox(log, stage, dropbox, keepCopy=False):
         shutil.copytree(stage, newstage)
 
     #extend permissions for dropbox copy job
-    os.chmod(stage, 0775)
+    os.chmod(stage, 0o775)
     for dirpath, _, filenames in os.walk(stage):
         for filename in filenames:
             path = os.path.join(dirpath, filename)
-            os.chmod(path, 0775)
+            os.chmod(path, 0o775)
 
     log.debug("Moving stage [%s] to dropbox [%s]"%(stage,dropbox))
     shutil.move(stage, dropbox)

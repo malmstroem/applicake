@@ -17,7 +17,7 @@ class EchoBasic(BasicApp):
         ]
 
     def run(self, log, info):
-        print info["COMMENT"]
+        print(info["COMMENT"])
         return info
 
 #use this class as executable
