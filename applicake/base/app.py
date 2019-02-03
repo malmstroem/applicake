@@ -77,7 +77,7 @@ class BasicApp(IApp):
             ci.teardown(log, info)
             log.debug("%s finished successfully at %s" % (cls.__name__, time.asctime()))
             log.info("%s finished successfully after %ss" % (cls.__name__, int(time.time() - start)))
-        except Exception as e:
+        except RuntimeError as e:
             msg = cls.__name__ + " failed! " + str(e)
             if isinstance(e, KeyError):
                 msg += " key not found in info"
@@ -190,17 +190,19 @@ class WrappedApp(BasicApp):
         if info.get('MODULE', '') != '':
             cmd = "module purge && module load %s && %s" % (info['MODULE'], cmd)
 
-        cmd = cmd.replace("\n", "")
+        cmd = cmd.strip()
         log.debug("command is [%s]" % cmd)
         # stderr to stdout: http://docs.python.org/2/library/subprocess.html#subprocess.STDOUT
         # read input "streaming" from subprocess: http://stackoverflow.com/a/17698359
         # get exitcode: http://docs.python.org/2/library/subprocess.html#subprocess.Popen.returncode
         p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1)
-        out = ""
-        for line in iter(p.stdout.readline, ''):
-            print(line.strip())
-            out += line
-        p.communicate()
+#        out = ""
+#        for line in iter(p.stdout.readline, ''):
+#            print(line.strip())
+#            out += line
+        out, err = p.communicate()
+        out = out.decode('utf-8')
+        print(out)
         exit_code = p.returncode
         return exit_code, out
 
