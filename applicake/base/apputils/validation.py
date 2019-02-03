@@ -38,5 +38,5 @@ def check_xml(log, path):
     try:
         parser = expat.ParserCreate()
         parser.ParseFile(open(path, "r"))
-    except Exception as e:
+    except RuntimeError as e:
         raise RuntimeError("Invalid XML [%s]: %s" % (path, e.message))
