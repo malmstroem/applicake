@@ -1,15 +1,20 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
     name="applicake",
-    version="0.0.8",
+    version="0.0.19",
     author="Lorenz Blum",
     maintainer=['Lorenz Blum', 'Witold Wolski'],
     author_email="blum@id.ethz.ch",
     maintainer_email=["blum@id.ethz.ch",'wewolski@gmail.com'],
     description="A framework that simplifies the wrapping of external tools by standardizing input parameters, logging messages and output streams.",
+    entry_points={
+        'console_scripts': [
+            'apl=applicake.apl:main',
+        ],
+    },
     license="BSD",
-    packages=['applicake'],
+    packages=find_packages(),
     include_package_data=True,
     url='https://github.com/applicake-tools/applicake',
     install_requires=[]
