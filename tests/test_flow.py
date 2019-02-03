@@ -3,6 +3,8 @@ import sys
 import os
 import tempfile
 import shutil
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 from applicake.apps.flow.branch import Branch
 from applicake.apps.flow.collate import Collate
