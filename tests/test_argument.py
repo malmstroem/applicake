@@ -2,6 +2,8 @@ import os
 import unittest
 
 import sys
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 from applicake.base.apputils import dicts
 from applicake.base.coreutils.arguments import Argument, parse_sysargs
@@ -17,7 +19,7 @@ class Test(unittest.TestCase):
     def test_parseArgs(self):
         sys.argv = [ '--INPUT', 'fcuk.ini', '--OUTPUT', 'kufc.ini']
         defaults, cliargs =  parse_sysargs([])
-        print cliargs;
+        print(cliargs);
 
     def test1_arg_priority(self):
         return
