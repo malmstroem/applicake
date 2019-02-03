@@ -3,6 +3,8 @@ import sys
 import os
 import tempfile
 import shutil
+myPath = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, myPath + '/../')
 
 from applicake.apps.examples.cp import CpApp
 from applicake.apps.examples.echowrapped import EchoWrapped
@@ -30,7 +32,7 @@ FILE = test.txt""")
         sys.argv = ['--INPUT', 'input.ini', '--OUTPUT', 'jobid.ini']
         Jobid.main()
         assert os.path.exists('jobid.ini')
-        assert 'JOB_ID' in open('jobid.ini').read()
+        assert 'JOB_ID' in open('jobid.ini','r').read()
 
     def test2_branch(self):
         sys.argv = ['--INPUT', 'jobid.ini', '--BRANCH', 'forcp.ini','--BRANCH', 'forecho.ini',]
@@ -43,19 +45,19 @@ FILE = test.txt""")
         sys.argv = ['--INPUT', 'forcp.ini', '--OUTPUT', 'cp.ini']
         CpApp.main()
         assert os.path.exists('cp.ini')
-        assert 'COPY' in open('cp.ini').read()
+        assert 'COPY' in open('cp.ini','r').read()
 
     def test4_split(self):
         sys.argv = ['--INPUT', 'forecho.ini', '--SPLIT', 'split.ini', '--SPLIT_KEY', 'COMMENT']
         Split.main()
 
         assert os.path.exists('split.ini_0')
-        assert 'comm' in open('split.ini_0').read()
-        assert not 'ent' in open('split.ini_0').read()
+        assert 'comm' in open('split.ini_0','r').read()
+        assert not 'ent' in open('split.ini_0','r').read()
 
         assert os.path.exists('split.ini_1')
-        assert not 'comm' in open('split.ini_1').read()
-        assert 'ent' in open('split.ini_1').read()
+        assert not 'comm' in open('split.ini_1','r').read()
+        assert 'ent' in open('split.ini_1','r').read()
 
 
     def test5_echo(self):
@@ -79,9 +81,9 @@ FILE = test.txt""")
         Collate.main()
         assert os.path.exists('collate.ini')
 
-        print open('collate.ini').read()
-        assert 'comm, ent' in open('collate.ini').read()
-        assert 'COPY' in open('collate.ini').read()
+        print(open('collate.ini','r').read())
+        assert 'comm, ent' in open('collate.ini','r').read()
+        assert 'COPY' in open('collate.ini','r').read()
 
     @classmethod
     def tearDownClass(cls):
