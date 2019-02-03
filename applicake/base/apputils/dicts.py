@@ -1,25 +1,32 @@
+"""merge dictionaries."""
 #http://stackoverflow.com/a/12735459
+
+
 def merge(dict_1, dict_2, priority='left'):
-    d1 = dict_1.copy()
-    d2 = dict_2.copy()
+    """merge the dictionaries, with priority."""
+    dict_1_copy = dict_1.copy()
+    dict_2_copy = dict_2.copy()
     if priority == 'left':
-        return dict(d2, **d1)
+        return dict(dict_2_copy, **dict_1_copy)
     elif priority == 'right':
-        return dict(d1, **d2)
+        return dict(dict_1_copy, **dict_2_copy)
     elif priority == 'append':
-        for key in d2:
-            if not key in d1:
-                d1[key] = d2[key]
+        for key in dict_2_copy:
+            if not key in dict_1_copy:
+                dict_1_copy[key] = dict_2_copy[key]
             else:
-                if not isinstance(d1[key], list):
-                    d1[key] = [d1[key]]
-                if not isinstance(d2[key], list):
-                    d2[key] = [d2[key]]
-                d1[key].extend(d2[key])
-        return d1
+                if not isinstance(dict_1_copy[key], list):
+                    dict_1_copy[key] = [dict_1_copy[key]]
+                if not isinstance(dict_2_copy[key], list):
+                    dict_2_copy[key] = [dict_2_copy[key]]
+                dict_1_copy[key].extend(dict_2_copy[key])
+        return dict_1_copy
+    else:
+        raise ValueError("priority needs to be left, right or append")
 
 
 def unify(seq, unlist_single=True):
+    """unify."""
     if not isinstance(seq, list):
         return seq
 
@@ -29,5 +36,4 @@ def unify(seq, unlist_single=True):
             res.append(i)
     if unlist_single and len(res) == 1:
         return res[0]
-    else:
-        return res
+    return res
