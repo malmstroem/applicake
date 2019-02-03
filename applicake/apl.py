@@ -16,7 +16,7 @@ def main():
     appliapp = None
     cls = None
     try:
-        appliapp = sys.argv[1]
+        appliapp = 'appliapps.' + sys.argv[1]
         module = importlib.import_module(appliapp)
         for name, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and appliapp in obj.__module__:
