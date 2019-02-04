@@ -9,14 +9,21 @@ alp.py examples.echobasic --COMMENT hello
 import importlib
 import inspect
 import sys
+import re
 
 
 def main():
     """main, find applicake app and execute main."""
     appliapp = None
     cls = None
+    if len(sys.argv) <= 1 or not re.match("^[\w\.]+$",sys.argv[1]):
+        print("Usage: %s NODE [OPTIONS]; e.g. %s examples.echobasic --COMMENT comment (debug: %d)"%(sys.argv[0],sys.argv[0],len(sys.argv)))
+        sys.exit(1)
+    if not '--WORKDIR' in sys.argv:
+        sys.argv.append('--WORKDIR')
+        sys.argv.append('.')
+    appliapp = 'appliapps.' + sys.argv[1]
     try:
-        appliapp = 'appliapps.' + sys.argv[1]
         module = importlib.import_module(appliapp)
         for name, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and appliapp in obj.__module__:
