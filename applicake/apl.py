@@ -16,10 +16,11 @@ def main():
     """main, find applicake app and execute main."""
     appliapp = None
     cls = None
-    if len(sys.argv) <= 1 or not re.match("^[\w\.]+$",sys.argv[1]):
-        print("Usage: %s NODE [OPTIONS]; e.g. %s examples.echobasic --COMMENT comment (debug: %d)"%(sys.argv[0],sys.argv[0],len(sys.argv)))
+    if len(sys.argv) <= 1 or not re.match(r"^[\w\.]+$", sys.argv[1]):
+        print("Usage: %s NODE [OPTIONS]; e.g. %s examples.echobasic --COMMENT comment (debug: %d)" %
+              (sys.argv[0], sys.argv[0], len(sys.argv)))
         sys.exit(1)
-    if not '--WORKDIR' in sys.argv:
+    if '--WORKDIR' not in sys.argv:
         sys.argv.append('--WORKDIR')
         sys.argv.append('.')
     appliapp = 'appliapps.' + sys.argv[1]
