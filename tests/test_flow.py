@@ -6,10 +6,10 @@ import shutil
 myPath = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, myPath + '/../')
 
-from applicake.apps.flow.branch import Branch
-from applicake.apps.flow.collate import Collate
-from applicake.apps.flow.merge import Merge
-from applicake.apps.flow.split import Split
+from appliapps.flow.branch import Branch
+from appliapps.flow.collate import Collate
+from appliapps.flow.merge import Merge
+from appliapps.flow.split import Split
 
 
 class Test(unittest.TestCase):

@@ -8,7 +8,7 @@ try:
 except ImportError:
     from io import StringIO
 
-from applicake.apps.examples.echowrapped import EchoWrapped
+from appliapps.examples.echowrapped import EchoWrapped
 
 
 class Test(unittest.TestCase):

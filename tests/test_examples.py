@@ -5,10 +5,10 @@ import tempfile
 import shutil
 from sys import platform as _platform
 
-from applicake.apps.examples.echobasic import EchoBasic
-from applicake.apps.examples.echowrapped import EchoWrapped
-from applicake.apps.examples.cp import CpApp
-from applicake.apps.examples.template import TemplateApp
+from appliapps.examples.echobasic import EchoBasic
+from appliapps.examples.echowrapped import EchoWrapped
+from appliapps.examples.cp import CpApp
+from appliapps.examples.template import TemplateApp
 
 
 class Test(unittest.TestCase):
