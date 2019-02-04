@@ -101,7 +101,7 @@ class BasicApp(IApp):
         basic_args = [Argument(Keys.INPUT, KeyHelp.INPUT, default=''),
                       Argument(Keys.OUTPUT, KeyHelp.OUTPUT, default=''),
                       Argument(Keys.MODULE, KeyHelp.MODULE, default=''),
-                      Argument(Keys.LOG_LEVEL, KeyHelp.LOG_LEVEL, default="DEBUG")]
+                      Argument(Keys.LOG_LEVEL, KeyHelp.LOG_LEVEL, default="INFO")]
 
         # Fixme: Prettify WORKDIR creation system
         # WORKDIR: if WORKDIR is defined add related args
