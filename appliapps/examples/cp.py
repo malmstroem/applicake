@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""WrappedApp with validation."""
 import os
 
 from applicake.base.app import WrappedApp

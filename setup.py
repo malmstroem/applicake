@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="applicake",
-    version="0.0.20",
+    version="0.0.21",
     author="Lorenz Blum",
     maintainer=['Lorenz Blum', 'Witold Wolski','Lars Malmstroem'],
     author_email="blum@id.ethz.ch",

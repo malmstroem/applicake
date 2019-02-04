@@ -1,3 +1,4 @@
+"""The main applicake app module."""
 import os
 import subprocess
 import sys
@@ -15,6 +16,7 @@ from applicake.base.coreutils.info import get_handler
 
 
 class IApp(object):
+    """IApp - The App Base class."""
     @classmethod
     def main(cls):
         """
@@ -63,6 +65,7 @@ class IApp(object):
 
 
 class BasicApp(IApp):
+    """BasicApp - for python code."""
     @classmethod
     def main(cls):
         log = None
@@ -76,7 +79,8 @@ class BasicApp(IApp):
 
             ci.teardown(log, info)
             log.debug("%s finished successfully at %s" % (cls.__name__, time.asctime()))
-            log.info("%s finished successfully after %ss" % (cls.__name__, int(time.time() - start)))
+            log.info("%s finished successfully after %ss" %
+                     (cls.__name__, int(time.time() - start)))
         except RuntimeError as e:
             msg = cls.__name__ + " failed! " + str(e)
             if isinstance(e, KeyError):
@@ -116,8 +120,8 @@ class BasicApp(IApp):
         defaults, cliargs = parse_sysargs(basic_args + app_args)
 
         # construct info from defaults < info < commandlineargs
-        ih = get_handler(cliargs.get(Keys.INPUT, None))
-        fileinfo = ih.read(cliargs.get(Keys.INPUT, None))
+        infh = get_handler(cliargs.get(Keys.INPUT, None))
+        fileinfo = infh.read(cliargs.get(Keys.INPUT, None))
         info = dicts.merge(cliargs, dicts.merge(fileinfo, defaults))
 
         # setup logging
@@ -153,11 +157,12 @@ class BasicApp(IApp):
         raise NotImplementedError("run() not implemented")
 
     def teardown(self, log, info):
-        ih = get_handler(info.get(Keys.OUTPUT))
-        ih.write(info, info.get(Keys.OUTPUT))
+        infh = get_handler(info.get(Keys.OUTPUT))
+        infh.write(info, info.get(Keys.OUTPUT))
 
 
 class WrappedApp(BasicApp):
+    """WrappedApp - for executing command line tools."""
     def run(self, log, info):
         info, cmd = self.prepare_run(log, info)
         exit_code, stdout = self.execute_run(log, info, cmd)
@@ -184,7 +189,7 @@ class WrappedApp(BasicApp):
     @staticmethod
     def execute_run_single(log, info, cmd):
         # feature request lgillet: append all executed commands to inifile, shorten paths
-        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY',"")) + re.sub(r"/[^ ]*/([^ ]*) ",r"\1 ",cmd.replace("\n", ""))+"; "
+        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.replace("\n", ""))+"; "
         # Fixme: Prettify/document MODULE load system
         # if MODULE is set load specific module before running cmd. requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':
@@ -195,15 +200,15 @@ class WrappedApp(BasicApp):
         # stderr to stdout: http://docs.python.org/2/library/subprocess.html#subprocess.STDOUT
         # read input "streaming" from subprocess: http://stackoverflow.com/a/17698359
         # get exitcode: http://docs.python.org/2/library/subprocess.html#subprocess.Popen.returncode
-        p = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1)
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1)
 #        out = ""
-#        for line in iter(p.stdout.readline, ''):
+#        for line in iter(proc.stdout.readline, ''):
 #            print(line.strip())
 #            out += line
-        out, err = p.communicate()
+        out, err = proc.communicate()
         out = out.decode('utf-8')
         print(out)
-        exit_code = p.returncode
+        exit_code = proc.returncode
         return exit_code, out
 
     def validate_run(self, log, info, exit_code, stdout):

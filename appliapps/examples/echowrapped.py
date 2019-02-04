@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""basic example of a WrappedApp"""
 from applicake.base import WrappedApp
 from applicake.base.coreutils import Argument
 from applicake.base.coreutils import Keys, KeyHelp

@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""basic example of a BasicApp"""
 from applicake.base import BasicApp
 from applicake.base.coreutils import Argument
 from applicake.base.coreutils import Keys, KeyHelp
