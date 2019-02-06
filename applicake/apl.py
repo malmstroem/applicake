@@ -26,7 +26,7 @@ def main():
     appliapp = 'appliapps.' + sys.argv[1]
     try:
         module = importlib.import_module(appliapp)
-        for name, obj in inspect.getmembers(module):
+        for _, obj in inspect.getmembers(module):
             if inspect.isclass(obj) and appliapp in obj.__module__:
                 cls = obj
     except ModuleNotFoundError as error:
