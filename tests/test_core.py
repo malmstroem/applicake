@@ -1,3 +1,4 @@
+"""Test the core."""
 import unittest
 import sys
 import os
@@ -12,15 +13,19 @@ from appliapps.examples.echowrapped import EchoWrapped
 
 
 class Test(unittest.TestCase):
+    """Test core."""
+
     @classmethod
     def setUpClass(cls):
         cls.tdir = tempfile.mkdtemp(dir=".")
         os.chdir(cls.tdir)
-        with open("input.ini", "w") as f:
-            f.write("COMMENT = infofile comment")
+        with open("input.ini", "w") as out_fh:
+            out_fh.write("COMMENT = infofile comment")
 
 
-    def test1_arg_priority(self):
+    @classmethod
+    def test1_arg_priority(cls):
+        """Test arg priority."""
         sys.stdout = StringIO()
         #should write default comment to logfile
         sys.argv = []
