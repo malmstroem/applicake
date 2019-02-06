@@ -15,7 +15,7 @@ from applicake.base.coreutils.arguments import Argument, parse_sysargs
 from applicake.base.coreutils.info import get_handler
 
 
-class IApp(object):
+class IApp:
     """IApp - The App Base class."""
     @classmethod
     def main(cls):
@@ -71,25 +71,25 @@ class BasicApp(IApp):
         log = None
         try:
             start = time.time()
-            ci = cls()
-            app_args = ci.add_args()
-            log, req_info, info = ci.setup(app_args)
-            ret_info = ci.run(log, req_info)
+            clsi = cls()
+            app_args = clsi.add_args()
+            log, req_info, info = clsi.setup(app_args)
+            ret_info = clsi.run(log, req_info)
             info = dicts.merge(info, ret_info, priority='right')
 
-            ci.teardown(log, info)
-            log.debug("%s finished successfully at %s" % (cls.__name__, time.asctime()))
-            log.info("%s finished successfully after %ss" %
-                     (cls.__name__, int(time.time() - start)))
-        except RuntimeError as e:
-            msg = cls.__name__ + " failed! " + str(e)
-            if isinstance(e, KeyError):
+            clsi.teardown(log, info)
+            log.debug("%s finished successfully at %s", cls.__name__, time.asctime())
+            log.info("%s finished successfully after %ss", cls.__name__, int(time.time() - start))
+        except RuntimeError as error:
+            msg = cls.__name__ + " failed! " + str(error)
+            if isinstance(error, KeyError):
                 msg += " key not found in info"
             msg += "\n"
             # feature request cuklinaj: mail when fail, delay between
             if os.environ.get("LSB_JOBID"):
                 controlfile = os.getenv("HOME") + "/.last_error_message"
-                if not os.path.exists(controlfile) or (time.time() - os.stat(controlfile).st_mtime) > 300:
+                if not os.path.exists(controlfile) or\
+                   (time.time() - os.stat(controlfile).st_mtime) > 300:
                     subprocess.call("touch %s; echo \"Failure reason: %s\" | mail -s \"Workflow Failed\" %s" % (
                         controlfile, msg, getpass.getuser()), shell=True)
             if not log:
@@ -114,7 +114,8 @@ class BasicApp(IApp):
                 app_args.insert(i + 1, Argument(Keys.BASEDIR, KeyHelp.BASEDIR, default='.'))
                 app_args.insert(i + 2, Argument(Keys.JOB_ID, KeyHelp.JOB_ID, default=''))
                 app_args.insert(i + 3, Argument(Keys.SUBJOBLIST, KeyHelp.SUBJOBLIST, default=''))
-                app_args.insert(i + 4, Argument(Keys.NAME, KeyHelp.NAME, default=self.__class__.__name__))
+                app_args.insert(i + 4, Argument(Keys.NAME, KeyHelp.NAME,
+                                                default=self.__class__.__name__))
                 break
 
         defaults, cliargs = parse_sysargs(basic_args + app_args)
@@ -131,11 +132,13 @@ class BasicApp(IApp):
         if Keys.DATASET_CODE in info:
             if not isinstance(info[Keys.DATASET_CODE], list):
                 if Keys.MZXML in info and not isinstance(info[Keys.MZXML], list):
-                    log.info("Dataset is %s (%s)" % (info[Keys.DATASET_CODE], os.path.basename(info[Keys.MZXML])))
+                    log.info("Dataset is %s (%s)",
+                             info[Keys.DATASET_CODE],
+                             os.path.basename(info[Keys.MZXML]))
                 else:
-                    log.info("Dataset is %s" % info[Keys.DATASET_CODE])
+                    log.info("Dataset is %s", info[Keys.DATASET_CODE])
             else:
-                log.debug("Datasets are %s" % info[Keys.DATASET_CODE])
+                log.debug("Datasets are %s", info[Keys.DATASET_CODE])
 
         # WORKDIR: create WORKDIR (only after mk log)
         info = dirs.create_workdir(log, info)
@@ -150,7 +153,7 @@ class BasicApp(IApp):
             for key in [arg.name for arg in basic_args + app_args]:
                 if key in info:
                     req_info[key] = info[key]
-        log.debug("info for app: %s" % req_info)
+        log.debug("info for app: %s", req_info)
         return log, req_info, info
 
     def run(self, log, info):
@@ -170,9 +173,11 @@ class WrappedApp(BasicApp):
         return info
 
     def prepare_run(self, log, info):
+        """prepare_run method, not implemented in base class."""
         raise NotImplementedError("prepare_run() not implemented")
 
     def execute_run(self, log, info, cmd):
+        """Default execute run method."""
         out = ""
         exit_code = 0
         if isinstance(cmd, list):
@@ -188,10 +193,12 @@ class WrappedApp(BasicApp):
 
     @staticmethod
     def execute_run_single(log, info, cmd):
+        """Execute a single run."""
         # feature request lgillet: append all executed commands to inifile, shorten paths
-        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.replace("\n", ""))+"; "
+        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.strip())+"; "
         # Fixme: Prettify/document MODULE load system
-        # if MODULE is set load specific module before running cmd. requires http://modules.sourceforge.net/
+        # if MODULE is set load specific module before running cmd.
+        # requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':
             cmd = "module purge && module load %s && %s" % (info['MODULE'], cmd)
 
@@ -200,18 +207,21 @@ class WrappedApp(BasicApp):
         # stderr to stdout: http://docs.python.org/2/library/subprocess.html#subprocess.STDOUT
         # read input "streaming" from subprocess: http://stackoverflow.com/a/17698359
         # get exitcode: http://docs.python.org/2/library/subprocess.html#subprocess.Popen.returncode
-        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, bufsize=1)
+        proc = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE,
+                                stderr=subprocess.STDOUT, bufsize=1)
 #        out = ""
 #        for line in iter(proc.stdout.readline, ''):
 #            print(line.strip())
 #            out += line
-        out, err = proc.communicate()
+        out, _ = proc.communicate()
         out = out.decode('utf-8')
         print(out)
         exit_code = proc.returncode
         return exit_code, out
 
-    def validate_run(self, log, info, exit_code, stdout):
+    @classmethod
+    def validate_run(cls, log, info, exit_code, stdout):
+        """Validate the run."""
         validation.check_exitcode(log, exit_code)
         validation.check_stdout(log, stdout)
         return info
