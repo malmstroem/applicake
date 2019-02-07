@@ -1,12 +1,14 @@
+"""Dropbox, prepare files to be imported into data manager."""
 import os
 import shutil
 import subprocess
 
-from applicake.base.apputils import dirs,validation
+from applicake.base.apputils import dirs, validation
 from applicake.base.coreutils import Keys
 
 
 def get_experiment_code(info):
+    """Return the experiment code."""
     #caveat: fails if no job_idx defined.
     uniq_exp_code = 'E' + info[Keys.JOB_ID]
     if info.get(Keys.SUBJOBLIST, "") != "":
@@ -16,6 +18,7 @@ def get_experiment_code(info):
     return uniq_exp_code
 
 def make_stagebox(log, info):
+    """Make a temporary folder to stage files."""
     dirname = ""
     if 'SPACE' in info:
         dirname += info['SPACE'] + "+"
@@ -29,6 +32,7 @@ def make_stagebox(log, info):
 
 
 def keys_to_dropbox(log, info, keys, tgt):
+    """Add entries stored in info."""
     if not isinstance(keys, list):
         keys = [keys]
     for key in keys:
@@ -49,10 +53,11 @@ def keys_to_dropbox(log, info, keys, tgt):
                     raise Exception('Could not copy [%s] to [%s]' % (file, tgt))
 
 
-def move_stage_to_dropbox(log, stage, dropbox, keepCopy=False):
+def move_stage_to_dropbox(log, stage, dropbox, keep_copy=False):
+    """Move the stage box to its final name."""
     #empty when moved, stage_copy when keepcopy
     newstage = ""
-    if keepCopy:
+    if keep_copy:
         newstage = stage + '_copy'
         shutil.copytree(stage, newstage)
 
@@ -63,12 +68,13 @@ def move_stage_to_dropbox(log, stage, dropbox, keepCopy=False):
             path = os.path.join(dirpath, filename)
             os.chmod(path, 0o775)
 
-    log.debug("Moving stage [%s] to dropbox [%s]"%(stage,dropbox))
+    log.debug("Moving stage [%s] to dropbox [%s]"%(stage, dropbox))
     shutil.move(stage, dropbox)
     return newstage
 
 
-def extendWorkflowID(wfstring):
+def extend_workflow_id(wfstring):
+    """Extends the workflow id. WARNING: used to be called extendWorkflowID."""
     applivers = subprocess.check_output("git --git-dir=/cluster/apps/guse/stable/base/master/.git rev-parse --short HEAD",
                                         shell=True).strip()
     imsbtoolvers = subprocess.check_output("printenv LOADEDMODULES| grep -o 'imsbtools/[^:]*' | tail -1",
