@@ -1,23 +1,27 @@
+"""The applicake argument class."""
 import sys
 from ast import literal_eval
+import logging
 
 from .keys import Keys
 
 
-class Argument(object):
+class Argument:
+    """The applicake argument class."""
     def __init__(self, *args, **kwargs):
         try:
             self.name = args[0]
             self.help = args[1]
         except:
-            raise Exception("Wrong initialization of Argument(name,help,**kwargs), check signature!")
+            raise Exception("Wrong initialization of Argument(name,help,**kwargs), check signature")
         self.default = kwargs.get('default', None)
         #WORKDIR: eliminate [required] flag for WORKDIR
-        if self.name in [Keys.WORKDIR,Keys.ALL_ARGS]:
+        if self.name in [Keys.WORKDIR, Keys.ALL_ARGS]:
             self.default = ''
 
 
 def parse_sysargs(arglist):
+    """parse the sysargs."""
     #helptext printing style from argparse
     if '-h' in sys.argv:
         _print_help(arglist)
@@ -36,11 +40,12 @@ def parse_sysargs(arglist):
             else:
                 all_args[key] = sarg
 
-    for k, v in all_args.items():
+    for key, value in all_args.items():
         try:
-            all_args[k] = literal_eval(v)
-        except:
-            all_args[k] = v
+            all_args[key] = literal_eval(value)
+        except Exception as error: # danger
+            logging.debug("WARNING! General exception caugt: %s", str(error))
+            all_args[key] = value
 
     defaults = dict((arg.name, arg.default) for arg in arglist if arg.default is not None)
     return defaults, all_args
