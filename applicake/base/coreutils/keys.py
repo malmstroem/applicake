@@ -1,7 +1,8 @@
-class Keys(object):
-    """
-    Some keys commonly used by the framework
-    """
+"""Core keys, commonly used by the framework."""
+
+
+class Keys:
+    """Some keys commonly used by the framework."""
 
     INPUT = 'INPUT'  #volatile
     OUTPUT = 'OUTPUT'  #volatile
@@ -33,10 +34,8 @@ class Keys(object):
     PEPTIDEFDR = 'PEPTIDEFDR'
 
 
-class KeyHelp(object):
-    """
-    Help texts for the common keys
-    """
+class KeyHelp:
+    """Help texts for the common keys."""
     INPUT = 'Input config file location (volatile argument)'
     OUTPUT = 'Output config file location (volatile argument)'
     LOG_LEVEL = "Logging level (CRITICAL, ERROR, WARNING, INFO or DEBUG)"
