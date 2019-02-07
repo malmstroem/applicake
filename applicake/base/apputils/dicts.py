@@ -8,9 +8,9 @@ def merge(dict_1, dict_2, priority='left'):
     dict_2_copy = dict_2.copy()
     if priority == 'left':
         return dict(dict_2_copy, **dict_1_copy)
-    elif priority == 'right':
+    if priority == 'right':
         return dict(dict_1_copy, **dict_2_copy)
-    elif priority == 'append':
+    if priority == 'append':
         for key in dict_2_copy:
             if not key in dict_1_copy:
                 dict_1_copy[key] = dict_2_copy[key]
@@ -21,8 +21,7 @@ def merge(dict_1, dict_2, priority='left'):
                     dict_2_copy[key] = [dict_2_copy[key]]
                 dict_1_copy[key].extend(dict_2_copy[key])
         return dict_1_copy
-    else:
-        raise ValueError("priority needs to be left, right or append")
+    raise ValueError("priority needs to be left, right or append")
 
 
 def unify(seq, unlist_single=True):
