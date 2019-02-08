@@ -40,7 +40,7 @@ class CopyWorkflow(BasicApp):
             Argument(Keys.THREADS,KeyHelp.THREADS, default=1),
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         #write ini for workflow, contains BASEDIR + JOBID
         pipeline_info = info.copy()
 

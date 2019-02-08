@@ -17,7 +17,7 @@ class EchoBasic(BasicApp):
             Argument("COMMENT", "String to be displayed")
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         print(info["COMMENT"])
         return info
 

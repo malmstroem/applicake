@@ -16,7 +16,7 @@ class Split(BasicApp):
             Argument(Keys.SPLIT_KEY, KeyHelp.SPLIT_KEY)
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         basename = info[Keys.SPLIT]
         key = info[Keys.SPLIT_KEY]
         value = info.get(key,"")

@@ -20,7 +20,7 @@ class EchoWrapped(WrappedApp):
             Argument("COMMENT", "String to be displayed", default="default comment")
         ]
 
-    def prepare_run(self, log, info):
+    def prepare_run(self, info):
         exe = info["EXECUTABLE"]
         comment = info["COMMENT"]
         command = "%s %s" % (exe, comment)

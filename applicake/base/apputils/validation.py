@@ -4,7 +4,7 @@ import logging
 from xml.parsers import expat
 
 
-def check_exitcode(log, exit_code):
+def check_exitcode(exit_code):
     """Check the exit code."""
     if exit_code == 0:
         logging.debug("Exit code OK (0)")
@@ -12,7 +12,7 @@ def check_exitcode(log, exit_code):
         raise RuntimeError("Bad exit code (%d)" % exit_code)
 
 
-def check_stdout(log, stdout):
+def check_stdout(stdout):
     """Check the stdout."""
     for line in stdout.splitlines():
         if any(x in line for x in ["Disk quota exceeded"]):
@@ -24,7 +24,7 @@ def check_stdout(log, stdout):
     logging.debug("No known error message in stdout")
 
 
-def check_file(log, path):
+def check_file(path):
     """Check if a file exists."""
     if not os.path.exists(path):
         raise RuntimeError('path [%s] does not exist' % path)
@@ -38,9 +38,9 @@ def check_file(log, path):
         logging.debug('file [%s] checked successfully', path)
 
 
-def check_xml(log, path):
+def check_xml(path):
     """Check xml files."""
-    check_file(log, path)
+    check_file(path)
     try:
         parser = expat.ParserCreate()
         parser.ParseFile(open(path, "r"))

@@ -23,13 +23,13 @@ class CpApp(WrappedApp):
             Argument(Keys.WORKDIR, "folder where FILE will go into, created if not specified.")
         ]
 
-    def prepare_run(self, log, info):
-        info = create_workdir(log, info)
+    def prepare_run(self, info):
+        info = create_workdir(info)
         info['COPY'] = os.path.join(info[Keys.WORKDIR], os.path.basename(info['FILE']))
         command = "%s %s %s" % (info['EXECUTABLE'], info["FILE"], info['COPY'])
         return info, command
 
-    def validate_run(self, log, info, exit_code, stdout):
+    def validate_run(self, info, exit_code, stdout):
         logging.debug("Cp validation")
         #self checked
         if "No such file" in stdout:
@@ -38,8 +38,8 @@ class CpApp(WrappedApp):
         if "Permission denied" in stdout:
             raise RuntimeError("Was not allowed to read inputfile. Need more rights")
         #validation util
-        validation.check_file(log, info['COPY'])
-        validation.check_exitcode(log, exit_code)
+        validation.check_file(info['COPY'])
+        validation.check_exitcode(exit_code)
         return info
 
 #use this class as executable

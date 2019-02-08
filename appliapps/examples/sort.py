@@ -23,8 +23,8 @@ class SortApp(WrappedApp):
             Argument(Keys.WORKDIR, "folder where FILE will go into, created if not specified.")
         ]
 
-    def prepare_run(self, log, info):
-        info = create_workdir(log, info)
+    def prepare_run(self, info):
+        info = create_workdir(info)
         numflag=""
         if info['NUMERIC'] == "true":
             numflag="-n "
@@ -33,9 +33,9 @@ class SortApp(WrappedApp):
         info['FILE'] = outfile
         return info, command
 
-    def validate_run(self, log, info, exit_code, stdout):
-        validation.check_file(log, info['FILE'])
-        validation.check_exitcode(log, exit_code)
+    def validate_run(self, info, exit_code, stdout):
+        validation.check_file(info['FILE'])
+        validation.check_exitcode(exit_code)
         return info
 
 #use this class as executable

@@ -10,15 +10,22 @@ import importlib
 import inspect
 import sys
 import re
+import logging
 
+LOGGER = logging.getLogger()
+HANDLER = logging.StreamHandler()
+FORMATTER = logging.Formatter('%(asctime)s %(levelname)-8s %(message)s')
+HANDLER.setFormatter(FORMATTER)
+LOGGER.addHandler(HANDLER)
+LOGGER.setLevel(logging.INFO)
 
 def main():
     """main, find applicake app and execute main."""
     appliapp = None
     cls = None
     if len(sys.argv) <= 1 or not re.match(r"^[\w\.]+$", sys.argv[1]):
-        print("Usage: %s NODE [OPTIONS]; e.g. %s examples.echobasic --COMMENT comment (debug: %d)" %
-              (sys.argv[0], sys.argv[0], len(sys.argv)))
+        print("Usage: %s NODE [OPTIONS]; e.g. %s examples.echobasic --COMMENT comment" %
+              (sys.argv[0], sys.argv[0]))
         sys.exit(1)
     if '--WORKDIR' not in sys.argv:
         sys.argv.append('--WORKDIR')

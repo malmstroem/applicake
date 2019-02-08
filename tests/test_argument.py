@@ -6,7 +6,6 @@ import logging
 
 from applicake.base.apputils import dicts
 from applicake.base.coreutils.arguments import Argument, parse_sysargs
-from applicake.base.coreutils.log import Logger
 from applicake.base.coreutils.keys import Keys, KeyHelp
 from applicake.base.coreutils.info import get_handler
 
@@ -63,9 +62,6 @@ class Test(unittest.TestCase):
         info_fh = get_handler(inifile)
         fileinfo = info_fh.read(inifile)
         info = dicts.merge(cliargs, dicts.merge(fileinfo, defaults))
-
-        # setup logging
-        log = Logger.create(info[Keys.LOG_LEVEL])
 
         # request by malars: show dataset prominent in logger
         if Keys.DATASET_CODE in info:

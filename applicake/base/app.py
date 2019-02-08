@@ -11,7 +11,6 @@ from applicake.base.apputils import dirs
 from applicake.base.apputils import dicts
 from applicake.base.apputils import validation
 from applicake.base.coreutils.keys import Keys, KeyHelp
-from applicake.base.coreutils.log import Logger
 from applicake.base.coreutils.arguments import Argument, parse_sysargs
 from applicake.base.coreutils.info import get_handler
 
@@ -40,25 +39,23 @@ class IApp:
         Set up environment for running App
 
         @param app_args: Arguments required by App
-        @return: logger, dict with info
+        @return: dict with info
         """
         raise NotImplementedError
 
-    def run(self, log, info):
+    def run(self, info):
         """
         Run the App
 
-        @param log: logger
         @param info: dict with info
         @return: (modified) dict with info
         """
         raise NotImplementedError
 
-    def teardown(self, log, info):
+    def teardown(self, info):
         """
         Clean up enviroment after running App
 
-        @param log: logger
         @param info: dict with info
         @return: None
         """
@@ -69,18 +66,17 @@ class BasicApp(IApp):
     """BasicApp - for python code."""
     @classmethod
     def main(cls):
-        log = None
         try:
             start = time.time()
             clsi = cls()
             app_args = clsi.add_args()
-            log, req_info, info = clsi.setup(app_args)
-            ret_info = clsi.run(log, req_info)
+            req_info, info = clsi.setup(app_args)
+            ret_info = clsi.run(req_info)
             info = dicts.merge(info, ret_info, priority='right')
 
-            clsi.teardown(log, info)
+            clsi.teardown(info)
             logging.debug("%s finished successfully at %s", cls.__name__, time.asctime())
-            logging.info("%s finished successfully after %ss", cls.__name__, int(time.time() - start))
+            logging.info("%s finished successfully (%ss)", cls.__name__, int(time.time() - start))
         except RuntimeError as error:
             msg = cls.__name__ + " failed! " + str(error)
             if isinstance(error, KeyError):
@@ -93,8 +89,6 @@ class BasicApp(IApp):
                    (time.time() - os.stat(controlfile).st_mtime) > 300:
                     subprocess.call("touch %s; echo \"Failure reason: %s\" | mail -s \"Workflow Failed\" %s" % (
                         controlfile, msg, getpass.getuser()), shell=True)
-            if not log:
-                sys.exit(msg)
             logging.error(msg)
             sys.exit(1)
 
@@ -108,7 +102,6 @@ class BasicApp(IApp):
                       Argument(Keys.MODULE, KeyHelp.MODULE, default=''),
                       Argument(Keys.LOG_LEVEL, KeyHelp.LOG_LEVEL, default="INFO")]
 
-        # Fixme: Prettify WORKDIR creation system
         # WORKDIR: if WORKDIR is defined add related args
         for i, arg in enumerate(app_args):
             if arg.name == Keys.WORKDIR:
@@ -126,9 +119,6 @@ class BasicApp(IApp):
         fileinfo = infh.read(cliargs.get(Keys.INPUT, None))
         info = dicts.merge(cliargs, dicts.merge(fileinfo, defaults))
 
-        # setup logging
-        log = Logger.create(info[Keys.LOG_LEVEL])
-
         # request by malars: show dataset prominent in logger
         if Keys.DATASET_CODE in info:
             if not isinstance(info[Keys.DATASET_CODE], list):
@@ -141,8 +131,8 @@ class BasicApp(IApp):
             else:
                 logging.debug("Datasets are %s", info[Keys.DATASET_CODE])
 
-        # WORKDIR: create WORKDIR (only after mk log)
-        info = dirs.create_workdir(log, info)
+        # WORKDIR: create WORKDIR (only after mk)
+        info = dirs.create_workdir(info)
 
         # filter to requested args
         if Keys.ALL_ARGS in info:
@@ -155,49 +145,48 @@ class BasicApp(IApp):
                 if key in info:
                     req_info[key] = info[key]
         logging.debug("info for app: %s", req_info)
-        return log, req_info, info
+        return req_info, info
 
-    def run(self, log, info):
+    def run(self, info):
         raise NotImplementedError("run() not implemented")
 
-    def teardown(self, log, info):
+    def teardown(self, info):
         infh = get_handler(info.get(Keys.OUTPUT))
         infh.write(info, info.get(Keys.OUTPUT))
 
 
 class WrappedApp(BasicApp):
     """WrappedApp - for executing command line tools."""
-    def run(self, log, info):
-        info, cmd = self.prepare_run(log, info)
-        exit_code, stdout = self.execute_run(log, info, cmd)
-        info = self.validate_run(log, info, exit_code, stdout)
+    def run(self, info):
+        info, cmd = self.prepare_run(info)
+        exit_code, stdout = self.execute_run(info, cmd)
+        info = self.validate_run(info, exit_code, stdout)
         return info
 
-    def prepare_run(self, log, info):
+    def prepare_run(self, info):
         """prepare_run method, not implemented in base class."""
         raise NotImplementedError("prepare_run() not implemented")
 
-    def execute_run(self, log, info, cmd):
+    def execute_run(self, info, cmd):
         """Default execute run method."""
         out = ""
         exit_code = 0
         if isinstance(cmd, list):
             for single_command in cmd:
-                exit_code_s, out_s = self.execute_run_single(log, info, single_command)
+                exit_code_s, out_s = self.execute_run_single(info, single_command)
                 exit_code += exit_code
                 out += out_s
                 if exit_code_s != 0:
                     break
         else:
-            exit_code, out = self.execute_run_single(log, info, cmd)
+            exit_code, out = self.execute_run_single(info, cmd)
         return exit_code, out
 
     @staticmethod
-    def execute_run_single(log, info, cmd):
+    def execute_run_single(info, cmd):
         """Execute a single run."""
         # feature request lgillet: append all executed commands to inifile, shorten paths
         info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.strip())+"; "
-        # Fixme: Prettify/document MODULE load system
         # if MODULE is set load specific module before running cmd.
         # requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':
@@ -221,8 +210,8 @@ class WrappedApp(BasicApp):
         return exit_code, out
 
     @classmethod
-    def validate_run(cls, log, info, exit_code, stdout):
+    def validate_run(cls, info, exit_code, stdout):
         """Validate the run."""
-        validation.check_exitcode(log, exit_code)
-        validation.check_stdout(log, stdout)
+        validation.check_exitcode(exit_code)
+        validation.check_stdout(stdout)
         return info

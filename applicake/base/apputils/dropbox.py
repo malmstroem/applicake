@@ -18,7 +18,7 @@ def get_experiment_code(info):
 
     return uniq_exp_code
 
-def make_stagebox(log, info):
+def make_stagebox(info):
     """Make a temporary folder to stage files."""
     dirname = ""
     if 'SPACE' in info:
@@ -32,7 +32,7 @@ def make_stagebox(log, info):
     return dirname
 
 
-def keys_to_dropbox(log, info, keys, tgt):
+def keys_to_dropbox(info, keys, tgt):
     """Add entries stored in info."""
     if not isinstance(keys, list):
         keys = [keys]
@@ -48,13 +48,13 @@ def keys_to_dropbox(log, info, keys, tgt):
                 logging.debug('Copy [%s] to [%s]', filename, tgt)
                 shutil.copy(filename, tgt)
             except:
-                if validation.check_file(log, filename):
+                if validation.check_file(filename):
                     logging.debug('File [%s] already exists, ignore', filename)
                 else:
                     raise Exception('Could not copy [%s] to [%s]' % (filename, tgt))
 
 
-def move_stage_to_dropbox(log, stage, dropbox, keep_copy=False):
+def move_stage_to_dropbox(stage, dropbox, keep_copy=False):
     """Move the stage box to its final name."""
     #empty when moved, stage_copy when keepcopy
     newstage = ""

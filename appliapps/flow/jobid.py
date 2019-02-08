@@ -13,7 +13,7 @@ class Jobid(BasicApp):
             Argument(Keys.WORKDIR, KeyHelp.WORKDIR)
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         return info
 
 

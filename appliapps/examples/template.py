@@ -21,8 +21,8 @@ class TemplateApp(BasicApp):
             Argument(Keys.WORKDIR, KeyHelp.WORKDIR)
         ]
 
-    def run(self, log, info):
-        info = create_workdir(log, info)
+    def run(self, info):
+        info = create_workdir(info)
 
         info['TEMPLATEFILE'] = os.path.join(info[Keys.WORKDIR], "template_out.tpl")
         templates.read_mod_write(info, templates.get_tpl_of_class(self), info['TEMPLATEFILE'])

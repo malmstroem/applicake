@@ -9,7 +9,7 @@ import logging
 from applicake.base.coreutils import Keys
 
 
-def create_workdir(log, info):
+def create_workdir(info):
     """Create the workdir."""
     if not Keys.WORKDIR in info:
         logging.debug("No WORKDIR requested")

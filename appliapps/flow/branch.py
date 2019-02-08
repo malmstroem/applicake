@@ -13,7 +13,7 @@ class Branch(BasicApp):
             Argument(Keys.BRANCH, KeyHelp.BRANCH)
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         ih = get_handler(info[Keys.BRANCH])
         tobranch = info[Keys.BRANCH].split(" ")
         del info[Keys.BRANCH]

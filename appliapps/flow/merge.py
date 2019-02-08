@@ -17,7 +17,7 @@ class Merge(BasicApp):
             Argument(Keys.MERGED, KeyHelp.MERGED)
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         paths = sorted(glob.glob(info[Keys.MERGE] + "_*"))
 
         #read in

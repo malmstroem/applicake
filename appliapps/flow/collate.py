@@ -14,7 +14,7 @@ class Collate(BasicApp):
             Argument(Keys.COLLATE, KeyHelp.COLLATE)
         ]
 
-    def run(self, log, info):
+    def run(self, info):
         ih = get_handler(info[Keys.COLLATE])
         paths = info[Keys.COLLATE].split(" ")
         del info[Keys.COLLATE]
