@@ -4,6 +4,7 @@ import os
 import re
 import shutil
 import time
+import logging
 
 from applicake.base.coreutils import Keys
 
@@ -11,17 +12,17 @@ from applicake.base.coreutils import Keys
 def create_workdir(log, info):
     """Create the workdir."""
     if not Keys.WORKDIR in info:
-        log.debug("No WORKDIR requested")
+        logging.debug("No WORKDIR requested")
         return info
 
     if info[Keys.WORKDIR] != "":
-        log.debug("Using specified WORKDIR [%s]" % info[Keys.WORKDIR])
+        logging.debug("Using specified WORKDIR [%s]", info[Keys.WORKDIR])
         return info
 
     # No workdir specified, creating one using BASEDIR, JOB_IDX, SUBJOBLIST, NAME
     if info.get(Keys.JOB_ID, "") == "":
         info[Keys.JOB_ID] = create_unique_jobdir(info[Keys.BASEDIR])
-        log.debug("JOB_ID was not set, generated [%s]" % info[Keys.JOB_ID])
+        logging.debug("JOB_ID was not set, generated [%s]", info[Keys.JOB_ID])
 
     workdir = ''
     for key in [Keys.BASEDIR, Keys.JOB_ID]:
@@ -37,7 +38,7 @@ def create_workdir(log, info):
 
     workdir += info[Keys.NAME] + os.path.sep
     makedirs_clean(workdir)
-    log.debug("Created WORKDIR [%s]" % workdir)
+    logging.debug("Created WORKDIR [%s]", workdir)
     info[Keys.WORKDIR] = workdir
 
     return info

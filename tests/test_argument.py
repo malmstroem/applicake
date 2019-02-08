@@ -1,14 +1,15 @@
 """Argument tests."""
 import os
 import unittest
-
 import sys
+import logging
 
 from applicake.base.apputils import dicts
 from applicake.base.coreutils.arguments import Argument, parse_sysargs
 from applicake.base.coreutils.log import Logger
 from applicake.base.coreutils.keys import Keys, KeyHelp
 from applicake.base.coreutils.info import get_handler
+
 
 MY_PATH = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, MY_PATH + '/../')
@@ -70,12 +71,12 @@ class Test(unittest.TestCase):
         if Keys.DATASET_CODE in info:
             if not isinstance(info[Keys.DATASET_CODE], list):
                 if Keys.MZXML in info and not isinstance(info[Keys.MZXML], list):
-                    log.info("Dataset is %s (%s)",
+                    logging.info("Dataset is %s (%s)",
                              info[Keys.DATASET_CODE], os.path.basename(info[Keys.MZXML]))
                 else:
-                    log.info("Dataset is %s", info[Keys.DATASET_CODE])
+                    logging.info("Dataset is %s", info[Keys.DATASET_CODE])
             else:
-                log.debug("Datasets are %s", info[Keys.DATASET_CODE])
+                logging.debug("Datasets are %s", info[Keys.DATASET_CODE])
         #argObj = Argument( "BLUMMER", "DUMMER BLUMMER HELP", default=1)
         #parse_sysargs(argObj)
 

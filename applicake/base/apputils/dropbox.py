@@ -2,6 +2,7 @@
 import os
 import shutil
 import subprocess
+import logging
 
 from applicake.base.apputils import dirs, validation
 from applicake.base.coreutils import Keys
@@ -26,7 +27,7 @@ def make_stagebox(log, info):
         dirname += info['PROJECT'] + "+"
     dirname += get_experiment_code(info)
     dirname = os.path.join(info[Keys.WORKDIR], dirname)
-    log.debug("stagebox is " + dirname)
+    logging.debug("stagebox is %s", dirname)
     dirs.makedirs_clean(dirname)
     return dirname
 
@@ -42,15 +43,15 @@ def keys_to_dropbox(log, info, keys, tgt):
             files = info[key]
         else:
             files = [info[key]]
-        for file in files:
+        for filename in files:
             try:
-                log.debug('Copy [%s] to [%s]' % (file, tgt))
-                shutil.copy(file, tgt)
+                logging.debug('Copy [%s] to [%s]', filename, tgt)
+                shutil.copy(filename, tgt)
             except:
-                if validation.check_file(log, file):
-                    log.debug('File [%s] already exists, ignore' % file)
+                if validation.check_file(log, filename):
+                    logging.debug('File [%s] already exists, ignore', filename)
                 else:
-                    raise Exception('Could not copy [%s] to [%s]' % (file, tgt))
+                    raise Exception('Could not copy [%s] to [%s]' % (filename, tgt))
 
 
 def move_stage_to_dropbox(log, stage, dropbox, keep_copy=False):
@@ -68,7 +69,7 @@ def move_stage_to_dropbox(log, stage, dropbox, keep_copy=False):
             path = os.path.join(dirpath, filename)
             os.chmod(path, 0o775)
 
-    log.debug("Moving stage [%s] to dropbox [%s]"%(stage, dropbox))
+    logging.debug("Moving stage [%s] to dropbox [%s]", stage, dropbox)
     shutil.move(stage, dropbox)
     return newstage
 

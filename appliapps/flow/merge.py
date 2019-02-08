@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import glob
+import logging
 
 import applicake.base.coreutils.info as infohandler
 from applicake.base.app import BasicApp
@@ -25,7 +26,7 @@ class Merge(BasicApp):
         if nofiles == 0:
             raise RuntimeError("No files to merge found!")
         for path in paths:
-            log.debug("Reading " + path)
+            logging.debug("Reading " + path)
             config = infohandler.get_handler(path).read(path)
 
             lastjob = config[Keys.SUBJOBLIST][-1]
@@ -58,7 +59,7 @@ class Merge(BasicApp):
         #write back
         for i, config in enumerate(config_container.values()):
             path = info[Keys.MERGED] + '_' + str(i)
-            log.debug("Writing out " + path)
+            logging.debug("Writing out " + path)
             infohandler.get_handler(path).write(config, path)
 
         return info

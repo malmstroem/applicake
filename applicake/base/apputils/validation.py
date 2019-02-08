@@ -1,12 +1,13 @@
 """validation: various methods to check if the execution was successful."""
 import os
+import logging
 from xml.parsers import expat
 
 
 def check_exitcode(log, exit_code):
     """Check the exit code."""
     if exit_code == 0:
-        log.debug("Exit code OK (0)")
+        logging.debug("Exit code OK (0)")
     else:
         raise RuntimeError("Bad exit code (%d)" % exit_code)
 
@@ -20,7 +21,7 @@ def check_stdout(log, stdout):
             raise RuntimeError("%s. The job run out of RAM!" % line.strip())
         if any(x in line for x in ["Exception:", "IOError"]):
             raise RuntimeError("%s. Check stdout for more details!" % line.strip())
-    log.debug("No known error message in stdout")
+    logging.debug("No known error message in stdout")
 
 
 def check_file(log, path):
@@ -34,7 +35,7 @@ def check_file(log, path):
     if not os.path.getsize(path) > 0:
         raise RuntimeError('file [%s] is 0KB' % path)
     else:
-        log.debug('file [%s] checked successfully' % path)
+        logging.debug('file [%s] checked successfully', path)
 
 
 def check_xml(log, path):

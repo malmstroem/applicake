@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 """basic example of a WrappedApp"""
+import logging
 from applicake.base import WrappedApp
 from applicake.base.coreutils import Argument
 from applicake.base.coreutils import Keys, KeyHelp
@@ -23,8 +24,8 @@ class EchoWrapped(WrappedApp):
         exe = info["EXECUTABLE"]
         comment = info["COMMENT"]
         command = "%s %s" % (exe, comment)
-        log.debug("Executable is " + exe)
-        log.info("Comment is " + comment)
+        logging.debug("Executable is " + exe)
+        logging.info("Comment is " + comment)
         return info, command
 
 #use this class as executable

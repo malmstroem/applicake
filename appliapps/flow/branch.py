@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import logging
 from applicake.base import BasicApp
 from applicake.base.coreutils import Argument
 from applicake.base.coreutils.info import get_handler
@@ -17,7 +18,7 @@ class Branch(BasicApp):
         tobranch = info[Keys.BRANCH].split(" ")
         del info[Keys.BRANCH]
         for branch in tobranch:
-            log.info("Branching " + branch)
+            logging.info("Branching " + branch)
             info = info.copy()
             ih.write(info, branch)
 

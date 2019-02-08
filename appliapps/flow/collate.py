@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import logging
 import applicake.base.apputils.dicts as dicts
 from applicake.base.coreutils import Argument
 from applicake.base.coreutils.info import get_handler
@@ -21,7 +22,7 @@ class Collate(BasicApp):
 
         #read in
         for path in paths:
-            log.debug('collating file [%s]' % path)
+            logging.debug('collating file [%s]' % path)
             config = ih.read(path)
             collector_config = dicts.merge(collector_config, config, priority='append')
 

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import logging
 
 from ruffus import *
 
@@ -55,7 +56,7 @@ class CopyWorkflow(BasicApp):
         pipeline_info['BASEDIR'] = info['BASEDIR']
 
         info = pipeline_info
-        log.debug("NOW THIS IS THE REAL RESULT. I FETCHED FROM SUBWORKFLOW %s" % info['COPY'])
+        logging.debug("NOW THIS IS THE REAL RESULT. I FETCHED FROM SUBWORKFLOW %s" % info['COPY'])
 
         return info
 

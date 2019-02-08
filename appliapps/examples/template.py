@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import os
+import logging
 
 from applicake.base.app import BasicApp
 from applicake.base.apputils.dirs import create_workdir
@@ -25,7 +26,7 @@ class TemplateApp(BasicApp):
 
         info['TEMPLATEFILE'] = os.path.join(info[Keys.WORKDIR], "template_out.tpl")
         templates.read_mod_write(info, templates.get_tpl_of_class(self), info['TEMPLATEFILE'])
-        log.debug("Templatefile sucessfully written. Contents are [%s]" % open(info['TEMPLATEFILE']).read())
+        logging.debug("Templatefile sucessfully written. Contents are [%s]" % open(info['TEMPLATEFILE']).read())
 
         return info
 

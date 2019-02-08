@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 """WrappedApp with validation."""
 import os
+import logging
 
 from applicake.base.app import WrappedApp
 from applicake.base.apputils.dirs import create_workdir
@@ -29,7 +30,7 @@ class CpApp(WrappedApp):
         return info, command
 
     def validate_run(self, log, info, exit_code, stdout):
-        log.debug("Cp validation")
+        logging.debug("Cp validation")
         #self checked
         if "No such file" in stdout:
             raise RuntimeError("Inputfile not found")

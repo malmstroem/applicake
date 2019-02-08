@@ -5,6 +5,7 @@ import sys
 import time
 import getpass
 import re
+import logging
 
 from applicake.base.apputils import dirs
 from applicake.base.apputils import dicts
@@ -78,8 +79,8 @@ class BasicApp(IApp):
             info = dicts.merge(info, ret_info, priority='right')
 
             clsi.teardown(log, info)
-            log.debug("%s finished successfully at %s", cls.__name__, time.asctime())
-            log.info("%s finished successfully after %ss", cls.__name__, int(time.time() - start))
+            logging.debug("%s finished successfully at %s", cls.__name__, time.asctime())
+            logging.info("%s finished successfully after %ss", cls.__name__, int(time.time() - start))
         except RuntimeError as error:
             msg = cls.__name__ + " failed! " + str(error)
             if isinstance(error, KeyError):
@@ -94,7 +95,7 @@ class BasicApp(IApp):
                         controlfile, msg, getpass.getuser()), shell=True)
             if not log:
                 sys.exit(msg)
-            log.error(msg)
+            logging.error(msg)
             sys.exit(1)
 
     def add_args(self):
@@ -132,13 +133,13 @@ class BasicApp(IApp):
         if Keys.DATASET_CODE in info:
             if not isinstance(info[Keys.DATASET_CODE], list):
                 if Keys.MZXML in info and not isinstance(info[Keys.MZXML], list):
-                    log.info("Dataset is %s (%s)",
-                             info[Keys.DATASET_CODE],
-                             os.path.basename(info[Keys.MZXML]))
+                    logging.info("Dataset is %s (%s)",
+                                 info[Keys.DATASET_CODE],
+                                 os.path.basename(info[Keys.MZXML]))
                 else:
-                    log.info("Dataset is %s", info[Keys.DATASET_CODE])
+                    logging.info("Dataset is %s", info[Keys.DATASET_CODE])
             else:
-                log.debug("Datasets are %s", info[Keys.DATASET_CODE])
+                logging.debug("Datasets are %s", info[Keys.DATASET_CODE])
 
         # WORKDIR: create WORKDIR (only after mk log)
         info = dirs.create_workdir(log, info)
@@ -153,7 +154,7 @@ class BasicApp(IApp):
             for key in [arg.name for arg in basic_args + app_args]:
                 if key in info:
                     req_info[key] = info[key]
-        log.debug("info for app: %s", req_info)
+        logging.debug("info for app: %s", req_info)
         return log, req_info, info
 
     def run(self, log, info):
@@ -203,7 +204,7 @@ class WrappedApp(BasicApp):
             cmd = "module purge && module load %s && %s" % (info['MODULE'], cmd)
 
         cmd = cmd.strip()
-        log.debug("command is [%s]" % cmd)
+        logging.debug("command is [%s]", cmd)
         # stderr to stdout: http://docs.python.org/2/library/subprocess.html#subprocess.STDOUT
         # read input "streaming" from subprocess: http://stackoverflow.com/a/17698359
         # get exitcode: http://docs.python.org/2/library/subprocess.html#subprocess.Popen.returncode

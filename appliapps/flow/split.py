@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import copy
+import logging
 
 from applicake.base.coreutils.arguments import Argument
 from applicake.base.coreutils.info import get_handler
@@ -34,7 +35,7 @@ class Split(BasicApp):
             infocopy[key] = val
             infocopy[Keys.SUBJOBLIST].append("%s%s%d%s%d" % (key, Keys.SUBJOBSEP, i, Keys.SUBJOBSEP, len(value)))
             path = basename + "_" + str(i)
-            log.debug("Writing split file " + path)
+            logging.debug("Writing split file " + path)
             get_handler(basename).write(infocopy, path)
 
         return info
