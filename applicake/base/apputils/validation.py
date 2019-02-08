@@ -16,7 +16,8 @@ def check_stdout(stdout):
     """Check the stdout."""
     for line in stdout.splitlines():
         if any(x in line for x in ["Disk quota exceeded"]):
-            raise RuntimeError("%s. Job ran out of scratch space! Please remove old workflow files!" % line.strip())
+            raise RuntimeError("%s. Job ran out of scratch space! \
+                                Please remove old workflow files!" % line.strip())
         if any(x in line for x in ["std::bad_alloc", "MemoryError"]):
             raise RuntimeError("%s. The job run out of RAM!" % line.strip())
         if any(x in line for x in ["Exception:", "IOError"]):

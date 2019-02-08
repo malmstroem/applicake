@@ -52,7 +52,8 @@ class IniInfoHandler(IInfoHandler):
     def write(self, info, path):
         """Write the file."""
         info = info.copy()
-        for key in [Keys.INPUT, Keys.OUTPUT, Keys.NAME, Keys.WORKDIR, Keys.EXECUTABLE, Keys.ALL_ARGS]:
+        for key in [Keys.INPUT, Keys.OUTPUT, Keys.NAME, Keys.WORKDIR,
+                    Keys.EXECUTABLE, Keys.ALL_ARGS]:
             if key in info:
                 del info[key]
         config = ConfigObj(info)

@@ -47,7 +47,8 @@ def keys_to_dropbox(info, keys, tgt):
             try:
                 logging.debug('Copy [%s] to [%s]', filename, tgt)
                 shutil.copy(filename, tgt)
-            except:
+            except RuntimeError as error:
+                logging.debug("Caught a RuntimeError: %s", str(error))
                 if validation.check_file(filename):
                     logging.debug('File [%s] already exists, ignore', filename)
                 else:
@@ -76,8 +77,10 @@ def move_stage_to_dropbox(stage, dropbox, keep_copy=False):
 
 def extend_workflow_id(wfstring):
     """Extends the workflow id. WARNING: used to be called extendWorkflowID."""
-    applivers = subprocess.check_output("git --git-dir=/cluster/apps/guse/stable/base/master/.git rev-parse --short HEAD",
-                                        shell=True).strip()
-    imsbtoolvers = subprocess.check_output("printenv LOADEDMODULES| grep -o 'imsbtools/[^:]*' | tail -1",
+    applivers = subprocess.check_output(
+        "git --git-dir=/cluster/apps/guse/stable/base/master/.git rev-parse --short HEAD"
+        , shell=True).strip()
+    imsbtoolvers = subprocess.check_output("printenv LOADEDMODULES | \
+                                            grep -o 'imsbtools/[^:]*' | tail -1",
                                            shell=True).strip()
     return wfstring + " " + imsbtoolvers + " base@" + applivers

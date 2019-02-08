@@ -42,10 +42,10 @@ def parse_sysargs(arglist):
 
     for key, value in all_args.items():
         try:
-            all_args[key] = literal_eval(value)
-        except Exception as error: # danger
-            logging.debug("WARNING! General exception caugt: %s", str(error))
             all_args[key] = value
+        except ValueError as error:
+            logging.debug("WARNING! ValueError exception caugt: %s", str(error))
+            all_args[key] = literal_eval(value)
 
     defaults = dict((arg.name, arg.default) for arg in arglist if arg.default is not None)
     return defaults, all_args

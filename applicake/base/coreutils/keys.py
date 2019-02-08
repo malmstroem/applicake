@@ -40,14 +40,17 @@ class KeyHelp:
     OUTPUT = 'Output config file location (volatile argument)'
     LOG_LEVEL = "Logging level (CRITICAL, ERROR, WARNING, INFO or DEBUG)"
     BASEDIR = "`-> Root directory for making workdir paths"
-    JOB_ID = '`-> Unique job ID for making workdir paths. If none is specified one is generated in ' + Keys.BASEDIR
-    SUBJOBLIST = "`-> List of subjobs IDs for making workdir paths. Managed by flow apps, do not modify"
+    JOB_ID = '`-> Unique job ID for making workdir paths. If none is specified one \
+              is generated in ' + Keys.BASEDIR
+    SUBJOBLIST = "`-> List of subjobs IDs for making workdir paths. \
+                  Managed by flow apps, do not modify"
     NAME = '`-> (App)name for making workdir paths (volatile argument)'
     WORKDIR = 'Directory to put output files to. If none is specified one is created ' \
               '(using %s, %s, %s and %s)' % (Keys.BASEDIR, Keys.JOB_ID, Keys.SUBJOBLIST, Keys.NAME)
     MODULE = "Allows loading a module before executing external command, for WrappedApps. " \
              "Requires http://modules.sourceforge.net/ installation."
-    ALL_ARGS = 'Special argument to give entire info object to app. Useful for dropbox or flow apps (volatile argument)'
+    ALL_ARGS = 'Special argument to give entire info object to app. \
+                Useful for dropbox or flow apps (volatile argument)'
 
     BRANCH = 'File names for branched output config files (volatile argument)'
     COLLATE = 'File names for input config files to collate (volatile argument)'

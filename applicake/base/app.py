@@ -87,8 +87,9 @@ class BasicApp(IApp):
                 controlfile = os.getenv("HOME") + "/.last_error_message"
                 if not os.path.exists(controlfile) or\
                    (time.time() - os.stat(controlfile).st_mtime) > 300:
-                    subprocess.call("touch %s; echo \"Failure reason: %s\" | mail -s \"Workflow Failed\" %s" % (
-                        controlfile, msg, getpass.getuser()), shell=True)
+                    subprocess.call("touch %s; echo \"Failure reason: %s\" | \
+                                     mail -s \"Workflow Failed\" %s" % (
+                                         controlfile, msg, getpass.getuser()), shell=True)
             logging.error(msg)
             sys.exit(1)
 
@@ -186,7 +187,8 @@ class WrappedApp(BasicApp):
     def execute_run_single(info, cmd):
         """Execute a single run."""
         # feature request lgillet: append all executed commands to inifile, shorten paths
-        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.strip())+"; "
+        info['COMMAND_HISTORY'] = str(info.get('COMMAND_HISTORY', "")) + \
+                                  re.sub(r"/[^ ]*/([^ ]*) ", r"\1 ", cmd.strip())+"; "
         # if MODULE is set load specific module before running cmd.
         # requires http://modules.sourceforge.net/
         if info.get('MODULE', '') != '':

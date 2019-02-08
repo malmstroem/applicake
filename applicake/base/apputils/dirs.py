@@ -33,7 +33,8 @@ def create_workdir(info):
         if not isinstance(info[Keys.SUBJOBLIST], list):
             info[Keys.SUBJOBLIST] = [info[Keys.SUBJOBLIST]]
         for subjob in info[Keys.SUBJOBLIST]:
-            dataset = re.sub(r"\W", "", subjob.split(Keys.SUBJOBSEP)[0]) + '_' + subjob.split(Keys.SUBJOBSEP)[1]
+            dataset = re.sub(r"\W", "", subjob.split(Keys.SUBJOBSEP)[0]) + '_' \
+                             + subjob.split(Keys.SUBJOBSEP)[1]
             workdir += dataset + os.path.sep
 
     workdir += info[Keys.NAME] + os.path.sep
