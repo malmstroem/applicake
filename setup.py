@@ -7,7 +7,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="applicake",
-    version="0.0.24",
+    version="0.0.25",
     author="Andreas Quandt",
     maintainer='Lars Malmstroem',
     author_email="applicake.pypi@gmail.com",
