@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Branching appliapp."""
 import logging
 from applicake.base import BasicApp
 from applicake.base.coreutils import Argument
@@ -7,6 +8,7 @@ from applicake.base.coreutils import Keys, KeyHelp
 
 
 class Branch(BasicApp):
+    """Braching appliapp."""
     def add_args(self):
         return [
             Argument(Keys.ALL_ARGS, KeyHelp.ALL_ARGS),
@@ -14,13 +16,13 @@ class Branch(BasicApp):
         ]
 
     def run(self, info):
-        ih = get_handler(info[Keys.BRANCH])
+        infoh = get_handler(info[Keys.BRANCH])
         tobranch = info[Keys.BRANCH].split(" ")
         del info[Keys.BRANCH]
         for branch in tobranch:
-            logging.info("Branching " + branch)
+            logging.info("Branching %s", branch)
             info = info.copy()
-            ih.write(info, branch)
+            infoh.write(info, branch)
 
         return info
 

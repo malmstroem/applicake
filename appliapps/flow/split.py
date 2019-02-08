@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Split appliapp."""
 import copy
 import logging
 
@@ -9,6 +10,7 @@ from applicake.base.coreutils.keys import Keys, KeyHelp
 
 
 class Split(BasicApp):
+    """Split appliapp."""
     def add_args(self):
         return [
             Argument(Keys.ALL_ARGS, KeyHelp.ALL_ARGS),
@@ -19,7 +21,7 @@ class Split(BasicApp):
     def run(self, info):
         basename = info[Keys.SPLIT]
         key = info[Keys.SPLIT_KEY]
-        value = info.get(key,"")
+        value = info.get(key, "")
         if not isinstance(value, list):
             value = [value]
 
@@ -33,9 +35,10 @@ class Split(BasicApp):
         for i, val in enumerate(value):
             infocopy = copy.deepcopy(info)
             infocopy[key] = val
-            infocopy[Keys.SUBJOBLIST].append("%s%s%d%s%d" % (key, Keys.SUBJOBSEP, i, Keys.SUBJOBSEP, len(value)))
+            infocopy[Keys.SUBJOBLIST].append("%s%s%d%s%d" % (key, Keys.SUBJOBSEP, i, \
+                                             Keys.SUBJOBSEP, len(value)))
             path = basename + "_" + str(i)
-            logging.debug("Writing split file " + path)
+            logging.debug("Writing split file %s", path)
             get_handler(basename).write(infocopy, path)
 
         return info

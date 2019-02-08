@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Sort applicapp."""
 import os
 
 from applicake.base.app import WrappedApp
@@ -25,9 +26,6 @@ class SortApp(WrappedApp):
 
     def prepare_run(self, info):
         info = create_workdir(info)
-        numflag=""
-        if info['NUMERIC'] == "true":
-            numflag="-n "
         outfile = os.path.join(info[Keys.WORKDIR], os.path.basename(info['FILE']))
         command = "%s %s %s" % (info['EXECUTABLE'], info["FILE"], outfile)
         info['FILE'] = outfile

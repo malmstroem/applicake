@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Applicake templating."""
 import os
 import logging
 
@@ -26,7 +27,8 @@ class TemplateApp(BasicApp):
 
         info['TEMPLATEFILE'] = os.path.join(info[Keys.WORKDIR], "template_out.tpl")
         templates.read_mod_write(info, templates.get_tpl_of_class(self), info['TEMPLATEFILE'])
-        logging.debug("Templatefile sucessfully written. Contents are [%s]" % open(info['TEMPLATEFILE']).read())
+        logging.debug("Templatefile sucessfully written. Contents are [%s]", \
+                      open(info['TEMPLATEFILE']).read())
 
         return info
 

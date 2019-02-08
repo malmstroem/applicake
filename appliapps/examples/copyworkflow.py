@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""Copy workflow app."""
 import os
 import sys
 import logging
@@ -29,27 +30,25 @@ def merge(unused_infile, outfile):
 
 
 class CopyWorkflow(BasicApp):
-    """
-    Let's wrap a ruffus workflow in an app
-    """
+    """Let's wrap a ruffus workflow in an app."""
 
     def add_args(self):
         return [
             Argument(Keys.WORKDIR, KeyHelp.WORKDIR),
             Argument("FILE", "FILE FOR COPY JOB"),
-            Argument(Keys.THREADS,KeyHelp.THREADS, default=1),
+            Argument(Keys.THREADS, KeyHelp.THREADS, default=1),
         ]
 
     def run(self, info):
         #write ini for workflow, contains BASEDIR + JOBID
         pipeline_info = info.copy()
 
-        path = os.path.join(pipeline_info["WORKDIR"],"input.ini")
-        IniInfoHandler().write(info,path)
+        path = os.path.join(pipeline_info["WORKDIR"], "input.ini")
+        IniInfoHandler().write(info, path)
 
         #run workflow
         os.chdir(pipeline_info['BASEDIR'])
-        pipeline_run([merge],multiprocess=int(pipeline_info[Keys.THREADS]))
+        pipeline_run([merge], multiprocess=int(pipeline_info[Keys.THREADS]))
 
         #parse "important information"
         pipeline_info = IniInfoHandler().read("merged.ini_0")

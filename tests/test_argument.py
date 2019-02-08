@@ -38,7 +38,6 @@ class Test(unittest.TestCase):
                       Argument(Keys.LOG_LEVEL, KeyHelp.LOG_LEVEL, default="DEBUG")]
 
 
-        # Fixme: Prettify WORKDIR creation system
         # WORKDIR: if WORKDIR is defined add related args
         app_args = []
 
@@ -68,7 +67,7 @@ class Test(unittest.TestCase):
             if not isinstance(info[Keys.DATASET_CODE], list):
                 if Keys.MZXML in info and not isinstance(info[Keys.MZXML], list):
                     logging.info("Dataset is %s (%s)",
-                             info[Keys.DATASET_CODE], os.path.basename(info[Keys.MZXML]))
+                                 info[Keys.DATASET_CODE], os.path.basename(info[Keys.MZXML]))
                 else:
                     logging.info("Dataset is %s", info[Keys.DATASET_CODE])
             else:

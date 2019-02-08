@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+"""App to collate dictionaries."""
 import logging
 import applicake.base.apputils.dicts as dicts
 from applicake.base.coreutils import Argument
@@ -8,6 +9,7 @@ from applicake.base.coreutils import Keys, KeyHelp
 
 
 class Collate(BasicApp):
+    """Collate appliapp."""
     def add_args(self):
         return [
             Argument(Keys.ALL_ARGS, KeyHelp.ALL_ARGS),
@@ -15,15 +17,15 @@ class Collate(BasicApp):
         ]
 
     def run(self, info):
-        ih = get_handler(info[Keys.COLLATE])
+        infoh = get_handler(info[Keys.COLLATE])
         paths = info[Keys.COLLATE].split(" ")
         del info[Keys.COLLATE]
         collector_config = info.copy()
 
         #read in
         for path in paths:
-            logging.debug('collating file [%s]' % path)
-            config = ih.read(path)
+            logging.debug('collating file [%s]', path)
+            config = infoh.read(path)
             collector_config = dicts.merge(collector_config, config, priority='append')
 
         #unify

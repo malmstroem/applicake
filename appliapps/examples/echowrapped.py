@@ -24,8 +24,8 @@ class EchoWrapped(WrappedApp):
         exe = info["EXECUTABLE"]
         comment = info["COMMENT"]
         command = "%s %s" % (exe, comment)
-        logging.debug("Executable is " + exe)
-        logging.info("Comment is " + comment)
+        logging.debug("Executable is %s", exe)
+        logging.info("Comment is %s", comment)
         return info, command
 
 #use this class as executable
